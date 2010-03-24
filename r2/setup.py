@@ -26,6 +26,11 @@ from ez_setup import use_setuptools
 use_setuptools()
 from setuptools import find_packages#, setup
 
+import sys
+vers=sys.version_info
+assert vers < (2,6) and vers > (2.5), \
+       ("Less Wrong is only compatible with Python 2.5.")
+
 try:
     from babel.messages import frontend as babel
 except:
@@ -132,4 +137,13 @@ setup(
     """,
 )
 
-
+for command in ['paster', 'mako-render']:
+    whichp=subprocess.Popen(['which',command],stdout=subprocess.PIPE)
+    commandloc=whichp.stdout.readline()[:-1]
+    commandfile=open(commandloc,'r')
+    pythonex=commandfile.readline()[2:-1]
+    versionproc=subprocess.Popen([pythonex,'--version'],stderr=subprocess.PIPE)
+    vers=versionproc.stderr.readline()[7:10]
+    if vers != '2.5':
+        print "Your installed copy of " + command + " will run in Python version " + vers
+        print "Trust me, this is pretty bad. Less Wrong won't run until you fix it"
