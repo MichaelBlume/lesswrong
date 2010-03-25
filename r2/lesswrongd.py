@@ -3,7 +3,7 @@
 from subprocess import Popen, PIPE
 import os
 
-LESSWRONG_DIR='' #You should change this.
+LESSWRONG_DIR='/home/mike/production/lesswrong/' #You should change this.
 
 PORT=8080
 INI_FILE='development.ini'
@@ -48,7 +48,7 @@ os.chdir(LESSWRONG_DIR + 'r2')
 lesswrong=Popen(['lesswrongd','serve','--reload', INI_FILE, 'port='+str(PORT)],
                 stdout=lesswronglog, stderr=lesswronglog, executable='paster')
 lesswronglog.write('starting up Less Wrong on port ' + str(PORT) + '\n')
-lesswronglog.write('lesswrongd serve --reload ' + INI_FILE + 'port=' + str(PORT))
+lesswronglog.write('lesswrongd serve --reload ' + INI_FILE + 'port=' + str(PORT) + '\n')
 
 print "Less Wrong running on port " + str(PORT) + " and PID " + str(lesswrong.pid)
 print "Type 'sudo kill " + str(lesswrong.pid) + "' to stop it."
