@@ -37,6 +37,8 @@ from pylons import g, c
 
 
 def score_changes(amount, old_amount):
+    """Assumes amount and old_amount are not of the same sign. Returns uc, dc
+    such that amount - old_amount == uc - dc."""
     uc = dc = 0
     a, oa = amount, old_amount
     if oa == 0 and a > 0: uc = a
@@ -54,6 +56,9 @@ class Vote(MultiRelation('vote',
 
     @classmethod
     def vote(cls, sub, obj, dir, ip, spam = False, organic = False):
+        """process a user's vote on a site object. dir represents the direction
+        of the vote. Upvote for dir true, otherwise downvote. sub is a user,
+        obj is a site object they wish to vote on."""
         from admintools import valid_user, valid_thing, update_score
         from r2.lib.count import incr_counts
 
